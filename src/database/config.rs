@@ -1,15 +1,14 @@
 use std::{
     env,
-    borrow::{Cow, Borrow},
+    borrow::Cow,
     default::Default,
     fmt::Debug,
     path::{Path},
-    net::Ipv4Addr,
+    net::{Ipv4Addr, SocketAddr, SocketAddrV4}
 };
 
 use std::collections::HashMap;
 use error_stack::{Report, Result, ResultExt};
-use regex;
 use regex::Regex;
 use crate::database::errors::{ImageConfigError};
 
@@ -48,10 +47,9 @@ pub struct DatabaseOptions<'a> {
     data_dir: Cow<'a, Path>,
     binary_dir: Cow<'a, Path>,
     image: ImageOptions<'a>,
-    hostname: Cow<'a, str>,
-    port: u32,
+    pub(crate) socket_addr: SocketAddr,
     grcp: u32,
-    additional: Option<HashMap<&'a str, &'a str>>
+    extra: Option<HashMap<&'a str, &'a str>>
 }
 
 impl AsRef<str> for SysType {
@@ -204,15 +202,15 @@ impl<'a> Default for DatabaseOptions<'a> {
             .unwrap_or_default();
         let bin = simple_home_dir::expand_tilde("~/.cache/weaviate-embedded/")
             .unwrap_or_default();
+        let v4_addr = SocketAddrV4::new(Ipv4Addr::LOCALHOST, 8079);
 
         DatabaseOptions {
             data_dir: Cow::Owned(data),
             binary_dir: Cow::Owned(bin),
             image: ImageOptions::default(),
-            hostname: Cow::Owned(Ipv4Addr::LOCALHOST.to_string()),
-            port: 8079,
+            socket_addr: SocketAddr::V4(v4_addr),
             grcp: 50060,
-            additional: None,
+            extra: None,
         }
     }
 }
