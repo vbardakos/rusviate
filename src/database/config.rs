@@ -30,24 +30,24 @@ pub enum Version<'a> {
 }
 
 #[derive(Debug)]
-enum ImageTarget<'a> {
+pub enum ImageTarget<'a> {
     Local(Cow<'a, str>),
     Url(Cow<'a, str>),
 }
 
 #[derive(Debug)]
 pub struct ImageOptions<'a> {
-    target: ImageTarget<'a>,
-    version: String,
+    pub target: ImageTarget<'a>,
+    pub version: String,
     system: SysType,
 }
 
 #[derive(Debug)]
 pub struct DatabaseOptions<'a> {
     data_dir: Cow<'a, Path>,
-    binary_dir: Cow<'a, Path>,
-    image: ImageOptions<'a>,
-    pub(crate) socket_addr: SocketAddr,
+    pub binary_dir: Cow<'a, Path>,
+    pub image: ImageOptions<'a>,
+    pub socket_addr: SocketAddr,
     grcp: u32,
     extra: Option<HashMap<&'a str, &'a str>>
 }
