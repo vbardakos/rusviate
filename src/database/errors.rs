@@ -1,44 +1,20 @@
 use std::error::Error;
 use std::fmt::{Display, Formatter};
 
-
 #[derive(Debug)]
-pub enum ImageConfigError {
+pub enum BuildErrors {
+    UnknownSystemError,
+    VersionFetchError,
+    VersionValueError,
     InvalidImageError,
-    UnsupportedArchError,
-    InvalidVersionError,
-    FetchVersionError,
-    CompilationError,
+    ImageNotFoundError,
+    DefaultPathError,
 }
 
-#[derive(Debug)]
-pub enum DatabaseConfigError {
-    Generic,
-}
-
-#[derive(Debug)]
-pub enum DatabaseError {
-    TcpError,
-}
-
-impl Display for ImageConfigError {
+impl Display for BuildErrors {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Failed to parse parameters in Image Configuration")
+        f.write_str("Failed to build Database")
     }
 }
 
-impl Display for DatabaseConfigError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Failed to parse parameters in Database Configuration")
-    }
-}
-
-impl Display for DatabaseError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Database Unexpected Error")
-    }
-}
-
-impl Error for ImageConfigError {}
-impl Error for DatabaseConfigError {}
-impl Error for DatabaseError {}
+impl Error for BuildErrors {}

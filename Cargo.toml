@@ -3,9 +3,13 @@ name = "rusviate"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "test"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+async-trait = "0.1.73"
 error-stack = "0.4.1"
 regex = "1.9.6"
 tokio = { version = "1.32.0", features = ["rt-multi-thread", "macros"] }
